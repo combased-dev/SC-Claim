@@ -1,0 +1,124 @@
+{
+  "name": "claim deployment test",
+  "gasSchedule": "dummy",
+  "steps": [
+    {
+      "step": "externalSteps",
+      "path": "start.scen.json"
+    },
+    {
+      "step": "setState",
+      "accounts": {
+        "address:my_address": {
+          "nonce": "0",
+          "balance": "20000000000000000000",
+          "esdt": {
+            "str:TPCM-396506": {
+              "instances": [
+                {
+                  "nonce": "1",
+                  "balance": "1"
+                },
+                {
+                  "nonce": "2",
+                  "balance": "1"
+                }
+              ]
+            }
+          },
+          "storage": {}
+        }
+      }
+    },
+    {
+      "step": "scCall",
+      "txId": "claim",
+      "tx": {
+        "from": "address:my_address",
+        "to": "sc:claim",
+        "function": "claim",
+        "arguments": [],
+        "egldValue": "0",
+        "gasLimit": "10,000,000",
+        "gasPrice": "0",
+        "esdtValue": [
+          {
+            "tokenIdentifier": "str:TPCM-396506",
+            "nonce": "1",
+            "value": "1"
+          },
+          {
+            "tokenIdentifier": "str:TPCM-396506",
+            "nonce": "2",
+            "value": "1"
+          }
+        ]
+      },
+      "expect": {
+        "out": [],
+        "status": "0",
+        "gas": "*",
+        "refund": "*"
+      }
+    },
+    {
+      "step": "checkState",
+      "accounts": {
+        "address:my_address": {
+          "nonce": "1",
+          "balance": "20000000000000000000",
+          "esdt": {
+            "str:TPCM-396506": {
+              "instances": [
+                {
+                  "nonce": "1",
+                  "balance": "1"
+                },
+                {
+                  "nonce": "2",
+                  "balance": "1"
+                }
+              ]
+            },
+            "str:LKMEX-aab910": {
+              "instances": [
+                {
+                  "nonce": "1",
+                  "balance": "666"
+                }
+              ]
+            }
+          },
+          "storage": {}
+        },
+        "sc:claim": {
+          "nonce": "0",
+          "balance": "0",
+          "esdt": {
+            "str:LKMEX-aab910": {
+              "instances": [
+                {
+                  "nonce": "1",
+                  "balance": "99334"
+                }
+              ]
+            }          },
+          "storage": {
+            "str:tokenid": "str:LKMEX-aab910",
+            "str:tokenidnft": "str:TPCM-396506",
+            "str:nonceid": "1",
+            "str:nftincollection": "300",
+            "str:status": "1",
+            "str:timer":"604800",
+            "str:rewardpernft":"333",
+            "str:deadline":"604800",
+            "0x6e6f6e6365636c61696d65642e6c656e":"2",
+            "0x6e6f6e6365636c61696d65642e6974656d00000001":"1",
+            "0x6e6f6e6365636c61696d65642e6974656d00000002":"2"
+        },
+          "code": "file:../output/claim.wasm"
+        }
+      }
+    }
+  ]
+}
