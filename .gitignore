@@ -13,3 +13,4 @@ wallets
 upgrade.json
 .vscode
 *.interaction.json
+wallet.pem
